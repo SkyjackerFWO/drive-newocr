@@ -1,0 +1,1 @@
+docker run --gpus all -it -v "$(PWD)/db:/ocr/db/" nvcr.io/nvidia/pytorch:21.10-py3
