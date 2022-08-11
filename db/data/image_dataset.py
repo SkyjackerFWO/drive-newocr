@@ -71,11 +71,11 @@ class ImageDataset(data.Dataset, Configurable):
                 if 'icdarr' in self.data_dir[0]:
                     poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
                 # elif 'TD' in self.data_dir[0]:
-                else:
-                    num_points = math.floor((len(line) - 1) / 2) * 2
-                    poly = np.array(list(map(float, line[:num_points]))).reshape((-1, 2)).tolist()
-                # else: 
-                #     poly = np.array(list(map(float, line[:4]))).reshape((-1, 2)).tolist()
+                # else:
+                #     num_points = math.floor((len(line) - 1) / 2) * 2
+                #     poly = np.array(list(map(float, line[:num_points]))).reshape((-1, 2)).tolist()
+                else: 
+                    poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
                 item['poly'] = poly
                 item['text'] = label
                 # print(label)
