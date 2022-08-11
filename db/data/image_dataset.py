@@ -44,6 +44,8 @@ class ImageDataset(data.Dataset, Configurable):
                 print(self.data_dir[i])
                 if 'TD500' in self.data_list[i] or 'total_text' in self.data_list[i]:
                     gt_path=[self.data_dir[i]+'/test_gts/'+timg.strip()+'.txt' for timg in image_list]
+                elif 'icdar'in self.data_list[i]:
+                    gt_path=[self.data_dir[i]+'test_gts/'+timg.strip().split('.')[0]+'.jpg.txt' for timg in image_list]
                 else:
                     gt_path=[self.data_dir[i]+'/test_gts/'+'gt_'+timg.strip().split('.')[0]+'.txt' for timg in image_list]
             #print(image_path)
@@ -66,14 +68,18 @@ class ImageDataset(data.Dataset, Configurable):
                 if 'TD' in self.data_dir[0] and label == '1':
                     label = '###'
                 line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in parts]
-                # if 'icdar' in self.data_dir[0]:
-                #     poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
-                # else:
-                #     num_points = math.floor((len(line) - 1) / 2) * 2
-                #     poly = np.array(list(map(float, line[:num_points]))).reshape((-1, 2)).tolist()
-                poly = np.array(list(map(float, line[:4]))).reshape((-1, 2)).tolist()
+                if 'icdarr' in self.data_dir[0]:
+                    poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
+                # elif 'TD' in self.data_dir[0]:
+                else:
+                    num_points = math.floor((len(line) - 1) / 2) * 2
+                    poly = np.array(list(map(float, line[:num_points]))).reshape((-1, 2)).tolist()
+                # else: 
+                #     poly = np.array(list(map(float, line[:4]))).reshape((-1, 2)).tolist()
                 item['poly'] = poly
                 item['text'] = label
+                # print(label)
+                # print(poly)
                 lines.append(item)
             res.append(lines)
         return res
